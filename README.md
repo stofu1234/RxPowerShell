@@ -36,11 +36,11 @@ Complete!!
 ## VS. 
 
 ## Requirement
-.NET4.5（3.5以上で動作すると思いますが、未検証です）
-PowerShell5.0（2.0でも動作すると思いますが、未検証なのとSystem.Mangement.Automation.dllの参照パスを変更してください）
-ReactiveExtension2.0(以前のバージョンは未検証)
-Windows10(他Windowsでも動くと思いますが未検証です)
-
+.NET4.5（3.5以上で動作すると思いますが、未検証です）  
+PowerShell5.0（2.0でも動作すると思いますが、未検証なのとSystem.Mangement.Automation.dllの参照パスを変更してください）  
+ReactiveExtension2.0(以前のバージョンは未検証)  
+Windows10(他Windowsでも動くと思いますが未検証です)  
+  
 ## Usage
 
 ## Install

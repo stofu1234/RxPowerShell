@@ -7,7 +7,7 @@ namespace jp.co.stofu.RxPowerShell
 {
     public class FileEx
     {
-        public static IObservable<string> ReadTxtPartial(string filePath, string encoding)
+        public static IObservable<string> ReadTxtToBuffer(string filePath, string encoding)
         {
             var subject = new BlockingSubject<string>();
             Task.Run(() => {
@@ -36,9 +36,9 @@ namespace jp.co.stofu.RxPowerShell
             return subject;
         }
 
-        public static IObservable<string> ReadTxtPartial(string filePath)
+        public static IObservable<string> ReadTxtBuffer(string filePath)
         {
-            return ReadTxtPartial(filePath, "shift_jis");
+            return ReadTxtToBuffer(filePath, "shift_jis");
         }
     }
 }

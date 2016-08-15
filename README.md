@@ -2,8 +2,8 @@ RxPowerShell
 ====
 
 ## Overview
-PowerShellを.NET環境からReactiveExtensionのObservableとして扱うライブラリです。
-昨今流行りのC# Scriptingでコマンドレットが扱いやすくなるので、PowerShell上での速度最適化が限界に達した時に使ってみてください
+PowerShellを.NET環境からReactiveExtensionのObservableとして扱うライブラリです。  
+昨今流行りのC# Scriptingでコマンドレットが扱いやすくなるので、PowerShell上での速度最適化が限界に達した時に使ってみてください  
 
 ## Description
 

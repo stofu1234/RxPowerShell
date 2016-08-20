@@ -9,7 +9,7 @@ namespace jp.co.stofu.RxPowerShell
     {
         public static string DEFAULT_ENCODING = "shift_jis";
 
-        public static IObservable<string> ReadTxtBuffer(string filePath)
+        public static IObservable<string> ReadTxtToBuffer(string filePath)
         {
             return ReadTxtToBuffer(filePath, DEFAULT_ENCODING);
         }

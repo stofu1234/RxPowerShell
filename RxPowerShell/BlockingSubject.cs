@@ -122,6 +122,9 @@ namespace jp.co.stofu.RxPowerShell
         {
             currentList.Add(new ErrorMessage<T>(ex));
             queue.Add(currentList);
+            //CompleteAddingすべきか、迷ってますが一応リスト初期化します
+            offset = 0;
+            currentList = new List<Message<T>>(queueLength);
         }
         public override void OnNext(T message)
         {

@@ -23,7 +23,15 @@ namespace jp.co.stofu.RxPowerShell
                     runspace.Open();
                     powershell.Runspace = runspace;
 
-                    powershell.AddScript(   "param($subject)                                " + newLine
+                    var addParamString = "";
+                    if (addParams != null)
+                    {
+                        foreach (var addParam in addParams)
+                        {
+                            addParamString+=",$"+addParam.Key;
+                        }
+                    }
+                    powershell.AddScript(   "param($subject" + addParamString + ")          " + newLine
                                           + "$ErrorActionPreference = 'Stop'                " + newLine
                                           + "& {                                            " + newLine
                                           + "   trap [Exception] {                          " + newLine

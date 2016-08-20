@@ -12,3 +12,17 @@ c:\users\naomasa\documents\visual studio 2015\Projects\RxPowerShell\RxPowerShell
 c:\users\naomasa\documents\visual studio 2015\Projects\RxPowerShell\RxPowerShell\obj\Debug\RxPowerShell.dll
 c:\users\naomasa\documents\visual studio 2015\Projects\RxPowerShell\RxPowerShell\obj\Debug\RxPowerShell.pdb
 C:\Users\naomasa\Documents\Visual Studio 2015\Projects\RxPowerShell\RxPowerShell\obj\Debug\RxPowerShell.csprojResolveAssemblyReference.cache
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\bin\Debug\RxPowerShell.dll
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\bin\Debug\RxPowerShell.pdb
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\bin\Debug\System.Management.Automation.dll
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\bin\Debug\System.Reactive.Linq.dll
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\bin\Debug\System.Reactive.PlatformServices.dll
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\bin\Debug\System.Reactive.Core.dll
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\bin\Debug\System.Reactive.Interfaces.dll
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\bin\Debug\System.Reactive.Linq.xml
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\bin\Debug\System.Reactive.PlatformServices.xml
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\bin\Debug\System.Reactive.Core.xml
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\bin\Debug\System.Reactive.Interfaces.xml
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\obj\Debug\RxPowerShell.csprojResolveAssemblyReference.cache
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\obj\Debug\RxPowerShell.dll
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\obj\Debug\RxPowerShell.pdb

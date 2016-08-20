@@ -7,9 +7,21 @@ namespace jp.co.stofu.RxPowerShell
 {
     public class FileEx
     {
-        public static IObservable<string> ReadTxtToBuffer(string filePath, string encoding)
+        public static string DEFAULT_ENCODING = "shift_jis";
+
+        public static IObservable<string> ReadTxtBuffer(string filePath)
         {
-            var subject = new BlockingSubject<string>();
+            return ReadTxtToBuffer(filePath, DEFAULT_ENCODING);
+        }
+        public static IObservable<string> ReadTxtToBuffer(string filePath, string encoding) {
+            return ReadTxtToBuffer(filePath, encoding, BlockingSubject<string>.DEFAULT_QUEUE_LENGTH, 1);
+        }
+        public static IObservable<string> ReadTxtToBuffer(string filePath, int queueLength, int bufferSize) {
+            return ReadTxtToBuffer(filePath, DEFAULT_ENCODING, BlockingSubject<string>.DEFAULT_QUEUE_LENGTH, 1);
+        }
+        public static IObservable<string> ReadTxtToBuffer(string filePath, string encoding,int queueLength,int bufferSize)
+        {
+            var subject = BlockingSubject<string>.Create(queueLength,bufferSize);
             Task.Run(() => {
                 StreamReader reader = null;
                 try
@@ -36,9 +48,5 @@ namespace jp.co.stofu.RxPowerShell
             return subject;
         }
 
-        public static IObservable<string> ReadTxtBuffer(string filePath)
-        {
-            return ReadTxtToBuffer(filePath, "shift_jis");
-        }
     }
 }

@@ -9,11 +9,15 @@ namespace jp.co.stofu.RxPowerShell
     public class PowerShell
     {
         public static IObservable<T> CreateAsObservable<T>(string script) {
-            return CreateAsObservable<T>(script, null);
+            return CreateAsObservable<T>(script, null,BlockingSubject<T>.DEFAULT_QUEUE_LENGTH,1);
         }
-        public static IObservable<T> CreateAsObservable<T>(string script,Dictionary<string,Object> addParams)
+        public static IObservable<T> CreateAsObservable<T>(string script, int queueLength, int bufferSize)
         {
-            var subject = new BlockingSubject<T>();
+            return CreateAsObservable<T>(script, null, queueLength, bufferSize);
+        }
+        public static IObservable<T> CreateAsObservable<T>(string script,Dictionary<string,Object> addParams,int queueLength,int bufferSize)
+        {
+            var subject = BlockingSubject<T>.Create(queueLength,bufferSize);
             var newLine = System.Environment.NewLine;
             Task.Run(() => {
                 using (var runspace = RunspaceFactory.CreateRunspace())

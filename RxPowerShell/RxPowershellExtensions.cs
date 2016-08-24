@@ -2,10 +2,10 @@
 
 namespace jp.co.stofu.RxPowerShell
 {
-    interface Message<T>
+    public interface Message<T>
     {
     }
-    class NextMessage<T> : Message<T>
+    public class NextMessage<T> : Message<T>
     {
         private T body;
         public T Body
@@ -18,7 +18,7 @@ namespace jp.co.stofu.RxPowerShell
             this.body = message;
         }
     }
-    class ErrorMessage<T> : Message<T>
+    public class ErrorMessage<T> : Message<T>
     {
         private Exception error;
         public Exception Error
@@ -31,7 +31,7 @@ namespace jp.co.stofu.RxPowerShell
             this.error = error;
         }
     }
-    class NullDisposable : IDisposable {
+    public class NullDisposable : IDisposable {
         public void Dispose() {
             //Nothing to do
         }

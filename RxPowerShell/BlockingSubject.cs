@@ -40,6 +40,39 @@ namespace jp.co.stofu.RxPowerShell
         public abstract void OnError(Exception error);
         public abstract void OnNext(T value);
         public abstract IDisposable Subscribe(IObserver<T> observer);
+
+        public void processMessage(IObserver<T> observer, Message<T> message)
+        {
+            if (message.GetType().Equals(typeof(NextMessage<T>)))
+            {
+                var nextMessage = message as NextMessage<T>;
+                observer.OnNext(nextMessage.Body);
+            }
+            else if (message.GetType().Equals(typeof(ErrorMessage<T>)))
+            {
+                var errorMessage = message as ErrorMessage<T>;
+                observer.OnError(errorMessage.Error);
+            }
+        }
+        public IDisposable SubscribeLoop(IObserver<T> observer, Action inLoopProcess)
+        {
+            try
+            {
+                while (true)
+                {
+                    inLoopProcess.Invoke();
+                }
+            }
+            catch (Exception e)
+            {
+                //dummy
+            }
+            finally
+            {
+                observer.OnCompleted();
+            }
+            return new NullDisposable();
+        }
     }
 
     class SimpleBlockingSubject<T> : BlockingSubject<T>
@@ -69,32 +102,11 @@ namespace jp.co.stofu.RxPowerShell
         }
         public override IDisposable Subscribe(IObserver<T> observer)
         {
-            try
+            return SubscribeLoop(observer, () =>
             {
-                while (true)
-                {
-                    var message = queue.Take();
-                    if (message.GetType().Equals(typeof(NextMessage<T>)))
-                    {
-                        var nextMessage = message as NextMessage<T>;
-                        observer.OnNext(nextMessage.Body);
-                    }
-                    else if (message.GetType().Equals(typeof(ErrorMessage<T>)))
-                    {
-                        var errorMessage = message as ErrorMessage<T>;
-                        observer.OnError(errorMessage.Error);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                //dummy
-            }
-            finally
-            {
-                observer.OnCompleted();
-            }
-            return new NullDisposable();
+                var message = queue.Take();
+                processMessage(observer, message);
+            });
         }
     }
 
@@ -142,37 +154,14 @@ namespace jp.co.stofu.RxPowerShell
         }
         public override IDisposable Subscribe(IObserver<T> observer)
         {
-            try
+            return SubscribeLoop(observer, () =>
             {
-                while (true)
+                var messages = queue.Take();
+                foreach (var message in messages)
                 {
-                    var messages = queue.Take();
-                    foreach (var message in messages)
-                    {
-                        if (message.GetType().Equals(typeof(NextMessage<T>)))
-                        {
-                            var nextMessage = message as NextMessage<T>;
-                            observer.OnNext(nextMessage.Body);
-                        }
-                        else if (message.GetType().Equals(typeof(ErrorMessage<T>)))
-                        {
-                            var errorMessage = message as ErrorMessage<T>;
-                            observer.OnError(errorMessage.Error);
-                        }
-                    }
+                    processMessage(observer, message);
                 }
-            }
-            catch (Exception e)
-            {
-                //dummy
-            }
-            finally
-            {
-                observer.OnCompleted();
-            }
-            return new NullDisposable();
+            });
         }
     }
-
-
 }

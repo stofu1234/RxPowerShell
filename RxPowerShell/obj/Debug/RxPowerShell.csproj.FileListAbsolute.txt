@@ -25,3 +25,4 @@ C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell
 C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\bin\Debug\System.Reactive.Interfaces.xml
 C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\obj\Debug\RxPowerShell.dll
 C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\obj\Debug\RxPowerShell.pdb
+C:\Users\naomasa\Google ドライブ\PC_SHARE\Projects\RxPowerShell\RxPowerShell\obj\Debug\RxPowerShell.csprojResolveAssemblyReference.cache

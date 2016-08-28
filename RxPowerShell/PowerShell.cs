@@ -58,5 +58,29 @@ namespace jp.co.stofu.RxPowerShell
             });
             return subject;
         }
+
+        public static PowerShellResult Run(string script) {
+            var powershell = auto.PowerShell.Create();
+            var runspace = RunspaceFactory.CreateRunspace();
+            var newLine = System.Environment.NewLine;
+
+            runspace.Open();
+            powershell.Runspace = runspace;
+
+            powershell.AddScript(   "$ErrorActionPreference = 'Stop'                  " + newLine
+                                  + "$objects = & {                                   " + newLine
+                                  + "   trap [Exception] {                            " + newLine
+                                  + "      @($null,$null,$laststExitCode,$?,$error[0])" + newLine
+                                  + "      break                                      " + newLine
+                                  + "   }                                             " + newLine
+                                  + "         " + script + "                          " + newLine
+                                  + "}                                                " + newLine
+                                  + "$output  = ($objects | % {$_.ToString()}) -Join [Environment]::NewLine" + newLine
+                                  + "@($objects,$output,$laststExitCode,$?,$null)     ");
+
+            var result = powershell.Invoke();
+
+            return new PowerShellResult(result, powershell.Streams);
+        }
     }
 }

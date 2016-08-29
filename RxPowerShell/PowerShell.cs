@@ -21,8 +21,8 @@ namespace jp.co.stofu.RxPowerShell
             var newLine = System.Environment.NewLine;
             Task.Run(() => {
                 using (var runspace = RunspaceFactory.CreateRunspace())
+                using (var powershell = auto.PowerShell.Create())
                 {
-                    var powershell = auto.PowerShell.Create();
                     runspace.ApartmentState = System.Threading.ApartmentState.MTA;
                     runspace.Open();
                     powershell.Runspace = runspace;
@@ -32,10 +32,10 @@ namespace jp.co.stofu.RxPowerShell
                     {
                         foreach (var addParam in addParams)
                         {
-                            addParamString+=",$"+addParam.Key;
+                            addParamString += ",$" + addParam.Key;
                         }
                     }
-                    powershell.AddScript(   "param($subject" + addParamString + ")          " + newLine
+                    powershell.AddScript("param($subject" + addParamString + ")          " + newLine
                                           + "$ErrorActionPreference = 'Stop'                " + newLine
                                           + "& {                                            " + newLine
                                           + "   trap [Exception] {                          " + newLine
@@ -47,8 +47,10 @@ namespace jp.co.stofu.RxPowerShell
                                           + "$subject.OnCompleted()                         ");
 
                     powershell.AddParameter("subject", subject);
-                    if (addParams != null) {
-                        foreach (var addParam in addParams) {
+                    if (addParams != null)
+                    {
+                        foreach (var addParam in addParams)
+                        {
                             powershell.AddParameter(addParam.Key, addParam.Value);
                         }
                     }
@@ -60,27 +62,30 @@ namespace jp.co.stofu.RxPowerShell
         }
 
         public static PowerShellResult Run(string script) {
-            var powershell = auto.PowerShell.Create();
-            var runspace = RunspaceFactory.CreateRunspace();
-            var newLine = System.Environment.NewLine;
+            PowerShellResult ret;
+            using (var runspace = RunspaceFactory.CreateRunspace())
+            using (var powershell = auto.PowerShell.Create())
+            {
+                var newLine = System.Environment.NewLine;
 
-            runspace.Open();
-            powershell.Runspace = runspace;
+                runspace.Open();
+                powershell.Runspace = runspace;
 
-            powershell.AddScript(   "$ErrorActionPreference = 'Stop'                  " + newLine
-                                  + "$objects = & {                                   " + newLine
-                                  + "   trap [Exception] {                            " + newLine
-                                  + "      @($null,$null,$laststExitCode,$?,$error[0])" + newLine
-                                  + "      break                                      " + newLine
-                                  + "   }                                             " + newLine
-                                  + "         " + script + "                          " + newLine
-                                  + "}                                                " + newLine
-                                  + "$output  = ($objects | % {$_.ToString()}) -Join [Environment]::NewLine" + newLine
-                                  + "@($objects,$output,$laststExitCode,$?,$null)     ");
+                powershell.AddScript("$ErrorActionPreference = 'Stop'                  " + newLine
+                                      + "$objects = & {                                   " + newLine
+                                      + "   trap [Exception] {                            " + newLine
+                                      + "      @($null,$null,$laststExitCode,$?,$error[0])" + newLine
+                                      + "      break                                      " + newLine
+                                      + "   }                                             " + newLine
+                                      + "         " + script + "                          " + newLine
+                                      + "}                                                " + newLine
+                                      + "$output  = ($objects | % {$_.ToString()}) -Join [Environment]::NewLine" + newLine
+                                      + "@($objects,$output,$laststExitCode,$?,$null)     ");
 
-            var result = powershell.Invoke();
-
-            return new PowerShellResult(result, powershell.Streams);
+                var result = powershell.Invoke();
+                ret= new PowerShellResult(result, powershell.Streams);
+            }
+            return ret;
         }
     }
 }

@@ -36,15 +36,20 @@ namespace jp.co.stofu.RxPowerShell
                         }
                     }
                     powershell.AddScript("param($subject" + addParamString + ")          " + newLine
-                                          + "$ErrorActionPreference = 'Stop'                " + newLine
-                                          + "& {                                            " + newLine
-                                          + "   trap [Exception] {                          " + newLine
-                                          + "      $subject.OnError($Error[0].Exception)    " + newLine
-                                          + "      continue                                 " + newLine
-                                          + "   }                                           " + newLine
-                                          + "         " + script + "                        " + newLine
-                                          + "  } | % { $subject.OnNext($_) }                " + newLine
-                                          + "$subject.OnCompleted()                         ");
+                                          + "$ErrorActionPreference = 'Stop'                     " + newLine
+                                          + "& {                                                 " + newLine
+                                          + "     trap [Exception] {                             " + newLine
+                                          + "        $subject.OnError($Error[0].Exception)       " + newLine
+                                          + "        continue                                    " + newLine
+                                          + "     }                                              " + newLine
+                                          + "         " + script + "                             " + newLine
+                                          + "  } | % { $subject.OnNext($_) }                     " + newLine
+                                          + "  if($lastExitCode -ne 0){                          " + newLine
+                                          + "     $exception = New-Object AbnormalEndException   " + newLine
+                                          + "     $exception.LastExitCode = $lastExitCode        " + newLine
+                                          + "     $subject.OnError($exception)                   " + newLine
+                                          + "  }                                                 " + newLine
+                                          + "$subject.OnCompleted()                              ");
 
                     powershell.AddParameter("subject", subject);
                     if (addParams != null)

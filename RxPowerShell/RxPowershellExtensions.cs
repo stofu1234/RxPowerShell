@@ -89,5 +89,4 @@ namespace jp.co.stofu.RxPowerShell
             this.streams = streams;
         }
     }
-
 }

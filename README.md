@@ -6,6 +6,12 @@ PowerShellを.NET環境からReactiveExtensionのObservableとして扱うライ
 昨今流行りのC# Scriptingでコマンドレットが扱いやすくなるので、PowerShell上での速度最適化が限界に達した時に使ってみてください  
 
 ## Demo
+> using rx=jp.co.stofu.RxPowerShell;  
+> using System.Linq;  
+> using System.Reactive.Subjects;  
+> using System.Reactive.Linq;  
+> using System.Reactive.Concurrency;  
+  
 > rx.PowerShell.CreateAsObservable<string>("1..10 | % {Start-Sleep 1;\"count:${_} script:$(Get-Date)\"}")  
                .ForEach(l => Console.WriteLine(l + " out:" + DateTime.Now.ToString()));  
 count:1 script:08/14/2016 11:40:23 out:2016/08/14 11:40:24  

@@ -5,6 +5,11 @@ using System.Collections.Generic;
 
 namespace jp.co.stofu.RxPowerShell
 {
+    /// <summary>
+    /// このクラスはBlockingCollectionをラッピングした抽象Subjectです
+    /// Subjectであるため、IObserverとIObservable両方のインタフェースを実装しています
+    /// AbstractFactoryパターンで、Factoryで生成するクラスを切り替えます
+    /// </summary>
     public abstract class BlockingSubject<T> : IObserver<T>, IObservable<T>
     {
         public static int DEFAULT_QUEUE_LENGTH = 1024;

@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+
+  <PropertyGroup Condition="Exists('$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll')">
+    <CodeTaskFactoryAssembly>$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll</CodeTaskFactoryAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition="Exists('$(MSBuildToolsPath)\Microsoft.Build.Tasks.v12.0.dll')">
+    <CodeTaskFactoryAssembly>$(MSBuildToolsPath)\Microsoft.Build.Tasks.v12.0.dll</CodeTaskFactoryAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition="Exists('$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll')">
+    <CodeTaskFactoryAssembly>$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll</CodeTaskFactoryAssembly>
+  </PropertyGroup>
+  
+  <UsingTask
+    TaskName="SelectLast"
+    TaskFactory="CodeTaskFactory"
+    AssemblyFile="$(CodeTaskFactoryAssembly)" >
+    <ParameterGroup>
+      <Items ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+      <Result ParameterType="System.String" Output="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System" />
+      <Using Namespace="System.Linq" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+    Result=Items.Last().ItemSpec;
+]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <!--
+    NuGet packaging for assembly
+  -->
+  <Target Name="PackageAssemblyForNuget"
+          AfterTargets="Build">
+    <PropertyGroup Condition="'$(SolutionDir)'=='*Undefined*'">
+      <SolutionDir>$(MSBuildProjectDirectory)..</SolutionDir>
+    </PropertyGroup>
+    <!-- <Message Text="SolutionDir is $(SolutionDir) '$(SolutionDir)'==''" /> -->
+    <ItemGroup>
+      <NugetExe Include="$(SolutionDir)packages\NuGet.CommandLine.*\**\Nuget.exe" />
+    </ItemGroup>
+    <SelectLast Items="@(NugetExe)" >
+      <Output PropertyName="nugetLatest" TaskParameter="Result" />
+    </SelectLast>
+    <Message Text="executing $(nugetLatest)" />
+    <ItemGroup >
+      <NuSpec Include="*.nuspec" />
+    </ItemGroup>
+    <Exec Condition="@(NuSpec)==''" Command="&quot;$(nugetLatest)&quot; spec "/>
+    <Error Condition="@(NuSpec)==''" Text="Nuspec file created please edit it" />
+    <Exec
+        Condition="@(NuSpec)!=''"
+        Command="&quot;$(nugetLatest)&quot; pack $(MSBuildProjectFile) -Properties &quot;Configuration=$(Configuration);Platform=$(Platform)&quot; -OutputDirectory &quot;$(TargetDir).&quot; "
+        CustomWarningRegularExpression=".*(Issue:|Description:).*"
+        LogStandardErrorAsError="true"  />
+  </Target>
+
+</Project>
